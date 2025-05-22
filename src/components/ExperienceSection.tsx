@@ -1,5 +1,7 @@
 
 import { Badge } from "@/components/ui/badge";
+import { motion } from "framer-motion";
+import { ChartBar, Briefcase, GraduationCap, Clock } from "lucide-react";
 
 interface ExperienceItemProps {
   title: string;
@@ -9,24 +11,73 @@ interface ExperienceItemProps {
   isLast?: boolean;
 }
 
-const ExperienceItem = ({ title, company, period, achievements, isLast = false }: ExperienceItemProps) => (
-  <div className={`timeline-item ${isLast ? 'border-l-transparent' : ''}`}>
-    <div className="timeline-dot"></div>
-    <div className="ml-4">
-      <h3 className="text-xl font-medium text-portfolio-navy dark:text-portfolio-white">{title}</h3>
-      <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-3">
-        <p className="text-portfolio-amber font-medium">{company}</p>
-        <span className="hidden sm:block text-gray-500 dark:text-gray-400">•</span>
-        <p className="text-gray-500 dark:text-gray-400">{period}</p>
+const ExperienceItem = ({ title, company, period, achievements, isLast = false }: ExperienceItemProps) => {
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
+
+  const listVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -5 },
+    visible: { opacity: 1, x: 0 }
+  };
+
+  return (
+    <motion.div 
+      className={`timeline-item ${isLast ? 'border-l-transparent' : ''}`}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={cardVariants}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="timeline-dot bg-gradient-to-br from-blue-500 to-blue-700 shadow-lg shadow-blue-400/20 scale-110"></div>
+      <div className="ml-4 bg-white/5 backdrop-blur-sm dark:bg-black/5 p-5 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-blue-500/50 dark:hover:border-blue-500/50 transition-all duration-300 shadow-lg hover:shadow-xl">
+        <div className="flex items-center gap-2 mb-2">
+          <Briefcase className="text-blue-500 h-5 w-5" />
+          <h3 className="text-xl font-medium text-portfolio-navy dark:text-portfolio-white">{title}</h3>
+        </div>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4">
+          <Badge variant="outline" className="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-700/50 px-3 py-1 inline-flex items-center justify-center">
+            {company}
+          </Badge>
+          <span className="hidden sm:block text-gray-500 dark:text-gray-400">•</span>
+          <div className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400">
+            <Clock className="h-3.5 w-3.5" />
+            <p className="text-sm">{period}</p>
+          </div>
+        </div>
+        <motion.ul 
+          className="space-y-3 text-gray-700 dark:text-portfolio-light-slate ml-1"
+          variants={listVariants}
+        >
+          {achievements.map((achievement, index) => (
+            <motion.li 
+              key={index} 
+              className="flex items-start gap-2"
+              variants={itemVariants}
+            >
+              <span className="h-5 w-5 min-w-5 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mt-0.5">
+                <span className="h-2 w-2 rounded-full bg-blue-500"></span>
+              </span>
+              <span>{achievement}</span>
+            </motion.li>
+          ))}
+        </motion.ul>
       </div>
-      <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-portfolio-light-slate">
-        {achievements.map((achievement, index) => (
-          <li key={index}>{achievement}</li>
-        ))}
-      </ul>
-    </div>
-  </div>
-);
+    </motion.div>
+  );
+};
 
 const ExperienceSection = () => {
   const experiences = [
@@ -90,9 +141,18 @@ const ExperienceSection = () => {
   ];
 
   return (
-    <section id="experience" className="py-20 bg-white dark:bg-portfolio-navy/95">
+    <section id="experience" className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-portfolio-navy/95 dark:to-black">
       <div className="container mx-auto px-4">
-        <h2 className="section-title text-center mb-14">Professional Experience</h2>
+        <div className="text-center mb-16">
+          <div className="inline-block p-1.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 mb-4">
+            <Briefcase className="h-6 w-6" />
+          </div>
+          <h2 className="section-title text-center mb-3 relative inline-block">
+            Professional Experience
+            <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full"></span>
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mt-4">My professional journey showcases a blend of technical expertise and practical experience in various engineering environments.</p>
+        </div>
 
         <div className="max-w-4xl mx-auto">
           {experiences.map((exp, index) => (

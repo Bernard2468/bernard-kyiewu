@@ -14,7 +14,7 @@ const Index = () => {
   const { isDarkMode, toggleTheme } = useTheme();
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black">
+    <div className="min-h-screen bg-white dark:bg-black overflow-hidden">
       <Header toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
       
       <main>
