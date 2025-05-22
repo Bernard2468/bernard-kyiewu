@@ -64,15 +64,15 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				portfolio: {
-					'navy': '#2C3E50', // Deep sea blue
-					'light-navy': '#34495E', // Lighter sea blue
-					'lightest-navy': '#5D6D7E', // Even lighter sea blue
-					'slate': '#7F8C8D',
-					'light-slate': '#95A5A6',
-					'lightest-slate': '#ECF0F1',
+					'navy': '#121212', // Changed to deep black
+					'light-navy': '#1E1E1E', // Lighter black
+					'lightest-navy': '#2D2D2D', // Even lighter black
+					'slate': '#6B7280',
+					'light-slate': '#9CA3AF',
+					'lightest-slate': '#F3F4F6',
 					'white': '#FFFFFF',
-					'amber': '#3498DB', // Changed to sea blue
-					'dark-amber': '#2980B9', // Darker sea blue
+					'amber': '#0EA5E9', // Changed to a vibrant blue
+					'dark-amber': '#0284C7', // Darker blue
 				}
 			},
 			fontFamily: {
@@ -118,6 +118,22 @@ export default {
 					'100%': {
 						opacity: '1',
 					},
+				},
+				'bounce-subtle': {
+					'0%, 100%': {
+						transform: 'translateY(0)'
+					},
+					'50%': {
+						transform: 'translateY(-5px)'
+					}
+				},
+				'pulse-soft': {
+					'0%, 100%': {
+						opacity: '1'
+					},
+					'50%': {
+						opacity: '0.8'
+					}
 				}
 			},
 			animation: {
@@ -125,6 +141,8 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in-up': 'fade-in-up 0.6s ease-out',
 				'fade-in': 'fade-in 0.6s ease-out',
+				'bounce-subtle': 'bounce-subtle 2s ease-in-out infinite',
+				'pulse-soft': 'pulse-soft 3s ease-in-out infinite'
 			}
 		}
 	},
