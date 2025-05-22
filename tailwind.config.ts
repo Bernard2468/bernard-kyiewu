@@ -64,9 +64,9 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				portfolio: {
-					'navy': '#0A192F',
-					'light-navy': '#112240',
-					'lightest-navy': '#233554',
+					'navy': '#563D67', // Changed from dark blue to a rich purple
+					'light-navy': '#704F83', // Lighter purple shade
+					'lightest-navy': '#8B6A9F', // Even lighter purple shade
 					'slate': '#8892B0',
 					'light-slate': '#A8B2D1',
 					'lightest-slate': '#CCD6F6',

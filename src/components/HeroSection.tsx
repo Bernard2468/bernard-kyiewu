@@ -1,8 +1,19 @@
 
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useEffect, useState } from 'react';
 
 const HeroSection = () => {
+  const [profileImgSrc, setProfileImgSrc] = useState<string>("/lovable-uploads/9a78f029-10e8-4f2d-b9ae-5b5c450c314b.png");
+
+  useEffect(() => {
+    // Get the profile picture from the HTML
+    const profilePictureElement = document.getElementById('profile-picture') as HTMLImageElement;
+    if (profilePictureElement && profilePictureElement.src) {
+      setProfileImgSrc(profilePictureElement.src);
+    }
+  }, []);
+
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
@@ -21,7 +32,7 @@ const HeroSection = () => {
           <div className="relative">
             <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-portfolio-amber shadow-xl">
               <img 
-                src="/lovable-uploads/9a78f029-10e8-4f2d-b9ae-5b5c450c314b.png" 
+                src={profileImgSrc}
                 alt="Kyiewu Bernard" 
                 className="w-full h-full object-cover"
               />

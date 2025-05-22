@@ -131,7 +131,7 @@
   }
 
   .hero-gradient {
-    @apply bg-gradient-to-r from-portfolio-navy to-portfolio-light-navy dark:from-portfolio-light-navy dark:to-portfolio-navy;
+    @apply bg-gradient-to-r from-[#563D67] to-[#704F83] dark:from-[#704F83] dark:to-[#563D67];
   }
 }
 
@@ -158,13 +158,13 @@ html {
 }
 
 .dark ::-webkit-scrollbar-track {
-  background: #0A192F;
+  background: #563D67;
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: #4A5568;
+  background: #704F83;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #718096;
+  background: #8B6A9F;
 }
