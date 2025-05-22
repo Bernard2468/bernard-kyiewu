@@ -64,15 +64,15 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				portfolio: {
-					'navy': '#563D67', // Changed from dark blue to a rich purple
-					'light-navy': '#704F83', // Lighter purple shade
-					'lightest-navy': '#8B6A9F', // Even lighter purple shade
-					'slate': '#8892B0',
-					'light-slate': '#A8B2D1',
-					'lightest-slate': '#CCD6F6',
-					'white': '#E6F1FF',
-					'amber': '#FF9800',
-					'dark-amber': '#F57C00',
+					'navy': '#2C3E50', // Deep sea blue
+					'light-navy': '#34495E', // Lighter sea blue
+					'lightest-navy': '#5D6D7E', // Even lighter sea blue
+					'slate': '#7F8C8D',
+					'light-slate': '#95A5A6',
+					'lightest-slate': '#ECF0F1',
+					'white': '#FFFFFF',
+					'amber': '#3498DB', // Changed to sea blue
+					'dark-amber': '#2980B9', // Darker sea blue
 				}
 			},
 			fontFamily: {
