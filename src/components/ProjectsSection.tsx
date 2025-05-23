@@ -87,7 +87,7 @@ const ProjectsSection = () => {
       title: "Non-Orthogonal Multiple Access in 5G Networks",
       description: "Research on implementing NOMA techniques in 5G networks to improve spectral efficiency and support more simultaneous users.",
       technologies: ["5G", "NOMA", "Signal Processing", "Wireless Communication", "MATLAB"],
-      achievement: "Aided in preparing a manuscript for a research paper on novel approach to NOMA implementation",
+      achievement: "Aided in preparing a manuscript for a research paper on novel approach to NOMA implementation.",
       //demoLink: "#"
     },
     {
