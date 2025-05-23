@@ -113,30 +113,108 @@ const AboutSection = () => {
           </h2>
         </div>
 
-        <div className="max-w-3xl mx-auto mb-16 text-center">
+        <div className="max-w-5xl mx-auto mb-16">
           <motion.p 
-            className="text-lg text-gray-700 dark:text-portfolio-light-slate mb-6"
+            className="text-lg text-gray-700 dark:text-portfolio-light-slate mb-12 text-center max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Dynamic and Innovative Computer Engineering Graduate with 2.5+ years of hands-on experience in 
-            AI engineering, technology support, technical support, mentoring, and applied research, coupled 
-            with a proven ability to bridge technical innovation with real-world solutions.
-          </motion.p>
-          <motion.p 
-            className="text-lg text-gray-700 dark:text-portfolio-light-slate"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            I thrive in teams, mentor junior engineers and students, and rapidly master emerging tools. 
-            My ambition is to make a significant impact through creative research and functional collaboration, 
+            Dynamic and Innovative Computer Engineering Graduate. I thrive in teams, mentor junior engineers and students, 
+            and rapidly master emerging tools. My ambition is to make a significant impact through creative research and functional collaboration, 
             and I am eager to pursue a career in engineering, academia, and research, contributing to innovative 
             projects that achieve scalable solutions.
           </motion.p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <motion.div 
+              className="bg-white dark:bg-portfolio-light-navy p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              whileHover={{ y: -5 }}
+            >
+              <h3 className="text-xl font-semibold text-portfolio-navy dark:text-portfolio-white mb-4 border-b border-blue-200 dark:border-blue-800 pb-2">
+                The Engineer's Odyssey
+              </h3>
+              <p className="text-gray-700 dark:text-portfolio-light-slate text-center">
+                From my first encounter with an Arduino microcontroller to developing AI models for local language processing, I've been driven by the fusion of engineering principles and the integration of hardware and software to solve real-world challenges. 
+                With a BSc in Computer Engineering, 2.5+ years of research and teaching experience, and proficiency in front-end development (HTML,CSS,React, JavaScript, and Figma for UI/UX design), I bridge the gap between theoretical innovation and practical implementation. 
+                My toolkit spans Python, C++, embedded systems, responsive web design,safety advocacy, and AI engineering—always with a focus on scalable, human-centric solutions.
+              </p>
+            </motion.div>
+
+            <motion.div 
+              className="bg-white dark:bg-portfolio-light-navy p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              whileHover={{ y: -5 }}
+            >
+              <h3 className="text-xl font-semibold text-portfolio-navy dark:text-portfolio-white mb-4 border-b border-blue-200 dark:border-blue-800 pb-2">
+                Learning and Building Intelligent Systems
+              </h3>
+              <p className="text-gray-700 dark:text-portfolio-light-slate text-center">
+                I thrive at the intersection of AI and engineering. My thesis project—a Twi speech recognition system achieving 75% accuracy—reflects my passion for democratizing technology through local language NLP. 
+                At Reality AI Lab, I reduced LLM hallucinations by 35% using RAG architectures and optimized chatbot latency by 25%. Beyond AI, I've crafted intuitive front-end interfaces for IoT dashboards,portfolio websites, and research tools, 
+                ensuring seamless user experiences even for complex systems. Whether it's predictive maintenance for industrial IoT or securing 5G networks, I aid in engineering systems that learn, adapt, and endure.
+              </p>
+            </motion.div>
+
+            <motion.div 
+              className="bg-white dark:bg-portfolio-light-navy p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              whileHover={{ y: -5 }}
+            >
+              <h3 className="text-xl font-semibold text-portfolio-navy dark:text-portfolio-white mb-4 border-b border-blue-200 dark:border-blue-800 pb-2">
+                Mentorship & Knowledge Sharing
+              </h3>
+              <p className="text-gray-700 dark:text-portfolio-light-slate text-center">
+                As a Teaching Assistant, I mentored 100+ students in web development, analog and digital communication, and other core engineering courses/concepts, boosting exam scores by 15% and fostering a culture of collaborative problem-solving. 
+                My workshops on AI, front-end frameworks, and C++ for 120+ students reinforced my belief that technology's true impact lies in empowering others.
+              </p>
+            </motion.div>
+
+            <motion.div 
+              className="bg-white dark:bg-portfolio-light-navy p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              whileHover={{ y: -5 }}
+            >
+              <h3 className="text-xl font-semibold text-portfolio-navy dark:text-portfolio-white mb-4 border-b border-blue-200 dark:border-blue-800 pb-2">
+                Precision Meets Practicality
+              </h3>
+              <p className="text-gray-700 dark:text-portfolio-light-slate text-center">
+                My fieldwork at Ghana Grid Company (GridCo) sharpened my eye for detail—diagnosing hydraulic faults, testing protection relays, and ensuring 100% compliance during audits. 
+                These experiences instilled a relentless focus on safety, efficiency, and documentation—principles. I am aiming to apply this skills in industry settings where safety, and accuracy is non-negotiable.
+              </p>
+            </motion.div>
+
+            <motion.div 
+              className="bg-white dark:bg-portfolio-light-navy p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800 md:col-span-2"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              whileHover={{ y: -5 }}
+            >
+              <h3 className="text-xl font-semibold text-portfolio-navy dark:text-portfolio-white mb-4 border-b border-blue-200 dark:border-blue-800 pb-2">
+                Forward Momentum & Collaboration
+              </h3>
+              <p className="text-gray-700 dark:text-portfolio-light-slate text-center">
+                I am currently exploring neuromorphic computing (a bridge between AI and the study of human brain), advanced front-end architectures, and wireless communication systems.
+                I am open to roles and collaborations that challenge me, and bring about scalable solutions in any industry, and merge AI with elegant interfaces—whether as a hire, contributor, or research partner.
+              </p>
+            </motion.div>
+          </div>
         </div>
 
         <div className="mb-16">
