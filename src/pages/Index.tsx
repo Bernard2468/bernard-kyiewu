@@ -1,10 +1,10 @@
-
 import { useTheme } from '@/contexts/ThemeContext';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
 import ExperienceSection from '@/components/ExperienceSection';
 import ProjectsSection from '@/components/ProjectsSection';
+import ToolsSection from '@/components/ToolsSection';
 import EducationSection from '@/components/EducationSection';
 import VolunteerSection from '@/components/VolunteerSection';
 import ContactSection from '@/components/ContactSection';
@@ -22,6 +22,7 @@ const Index = () => {
         <AboutSection />
         <ExperienceSection />
         <ProjectsSection />
+        <ToolsSection />
         <EducationSection />
         <VolunteerSection />
         <ContactSection />
