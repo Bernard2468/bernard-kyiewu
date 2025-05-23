@@ -75,7 +75,6 @@ yarn build
 - GitHub: [@your-github-username](https://github.com/Bernard2468)
 - LinkedIn: [Kyiewu Bernard](https://www.linkedin.com/in/kyiewu-bernard/)
 - X: [Kyiewu Bernard](https://x.com/_kbern_)
-- GMAIL: [Kyiewu Bernard](kyiewubernard18@gmail.com)
 
 ## 🔭 Future Features
 - 3D animations in the hero section
@@ -85,7 +84,9 @@ yarn build
 - Project filtering system
 
 ## 🤝 Contributing
-Contributions, issues, and feature requests are welcome!
+Hey there, fellow developer! 👋 Want to make this portfolio even better? Your contributions, ideas, and creative suggestions are more than welcome! Whether you've found a bug, have a feature request, or want to contribute code, I'd love to hear from you.
+
+✉️ Drop me a line at kyiewubernard18@gmail.com - let's create something amazing together!
 
 Feel free to check the [issues page](https://github.com/Bernard2468/bernard-kyiewu/issues).
 
