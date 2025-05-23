@@ -72,7 +72,7 @@ yarn build
 
 **Kyiewu Bernard**
 
-- GitHub: [@your-github-username](https://github.com/Bernard2468)
+- GitHub: [@dhopes](https://github.com/Bernard2468)
 - LinkedIn: [Kyiewu Bernard](https://www.linkedin.com/in/kyiewu-bernard/)
 - X: [Kyiewu Bernard](https://x.com/_kbern_)
 
