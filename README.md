@@ -59,7 +59,7 @@ npm run dev
 yarn dev
 ```
 
-4. Open your browser and visit `http://localhost:5173`
+4. Open your browser and visit `your local host link. eg: http://localhost:5173`
 
 ### Build for Production
 ```bash
@@ -72,8 +72,10 @@ yarn build
 
 **Kyiewu Bernard**
 
-- GitHub: [@your-github-username](https://github.com/your-github-Bernard2468)
+- GitHub: [@your-github-username](https://github.com/Bernard2468)
 - LinkedIn: [Kyiewu Bernard](https://www.linkedin.com/in/kyiewu-bernard/)
+- X: [Kyiewu Bernard](https://x.com/_kbern_)
+- GMAIL: [Kyiewu Bernard](kyiewubernard18@gmail.com)
 
 ## 🔭 Future Features
 - 3D animations in the hero section
@@ -85,7 +87,7 @@ yarn build
 ## 🤝 Contributing
 Contributions, issues, and feature requests are welcome!
 
-Feel free to check the [issues page](https://github.com/your-Bernard2468/your-portfolio/issues).
+Feel free to check the [issues page](https://github.com/Bernard2468/bernard-kyiewu/issues).
 
 ## ⭐️ Show your support
 If you like this project, please give it a star!
