@@ -46,11 +46,11 @@ const AboutSection = () => {
   const [activeTab, setActiveTab] = useState('technical');
 
   const technicalSkills = [
-    { name: 'AI Engineering (LLM, NLP)', proficiency: 90 },
-    { name: 'Computer Programming', proficiency: 85 },
-    { name: 'Web Development', proficiency: 80 },
+    { name: 'AI Engineering (LLM, NLP)', proficiency: 75 },
+    { name: 'Computer Programming', proficiency: 80 },
+    { name: 'Front End Web Development', proficiency: 90 },
     { name: 'Proteus & Multisim Simulations', proficiency: 75 },
-    { name: 'Networking (TCP/IP, Routing & Switching)', proficiency: 80 },
+    { name: 'Networking (TCP/IP, Routing & Switching)', proficiency: 65 },
     { name: 'Embedded Systems (Arduino)', proficiency: 85 },
     { name: 'Research Writing', proficiency: 90 },
     { name: 'Project Management', proficiency: 85 },
@@ -71,6 +71,7 @@ const AboutSection = () => {
     { name: 'Problem Solving', proficiency: 95 },
     { name: 'Teamwork & Leadership', proficiency: 90 },
     { name: 'Detail-Oriented & Proactive', proficiency: 95 },
+    { name: 'Organizational Skills', proficiency: 90 },
   ];
 
   const interests = [

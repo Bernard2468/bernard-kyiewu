@@ -72,29 +72,30 @@ const ProjectsSection = () => {
       description: "Applied NLP principles to develop a speech recognition system for Twi language, enhancing accessibility for local language speakers.",
       technologies: ["NLP", "Speech Recognition", "Machine Learning", "Python", "Tensorflow"],
       achievement: "85% accuracy on a dataset of 10,000+ speech samples",
-      githubLink: "#"
+      //githubLink: "#"
+      //demoLink: "#"
     },
     {
       title: "IoT-Enabled Predictive Maintenance System",
       description: "Developed an IoT system for industrial equipment that predicts maintenance needs before failures occur, reducing equipment downtime.",
       technologies: ["IoT", "Predictive Analytics", "Machine Learning", "Arduino", "Cloud Computing"],
       achievement: "15% reduction in maintenance downtime",
-      githubLink: "#",
-      demoLink: "#"
+      //githubLink: "#",
+      //demoLink: "#"
     },
     {
       title: "Non-Orthogonal Multiple Access in 5G Networks",
       description: "Research on implementing NOMA techniques in 5G networks to improve spectral efficiency and support more simultaneous users.",
       technologies: ["5G", "NOMA", "Signal Processing", "Wireless Communication", "MATLAB"],
       achievement: "Published research paper on novel approach to NOMA implementation",
-      demoLink: "#"
+      //demoLink: "#"
     },
     {
       title: "Secure Communication System Using Public Key Cryptography",
       description: "Designed and implemented a secure communication system using public key infrastructure to ensure encrypted data transmission.",
       technologies: ["Cryptography", "Network Security", "Python", "Algorithms", "PKI"],
-      achievement: "Successful implementation with 99.9% data integrity",
-      githubLink: "#"
+      achievement: "Successful implementation with 79.9% data integrity",
+    
     }
   ];
 
@@ -111,8 +112,8 @@ const ProjectsSection = () => {
               description={project.description}
               technologies={project.technologies}
               achievement={project.achievement}
-              githubLink={project.githubLink}
-              demoLink={project.demoLink}
+              //githubLink={project.githubLink}
+              //demoLink={project.demoLink}
             />
           ))}
         </div>

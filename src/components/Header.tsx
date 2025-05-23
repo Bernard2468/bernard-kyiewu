@@ -61,7 +61,7 @@ const Header = ({ toggleTheme, isDarkMode }: HeaderProps) => {
     >
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <div className="text-xl font-bold text-portfolio-navy dark:text-portfolio-white">
-          <a href="#home" className="flex items-center">KB</a>
+          <a href="#home" className="flex items-center">Bernard Kyiewu</a>
         </div>
 
         {/* Desktop Navigation */}

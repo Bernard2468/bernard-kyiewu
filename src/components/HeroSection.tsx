@@ -63,12 +63,13 @@ const HeroSection = () => {
           <h2 className="text-xl md:text-2xl font-medium text-gray-700 dark:text-gray-300 mb-4">
             <span className="text-portfolio-amber">Health and Safety Advocate</span> | 
             <span className="ml-1">AI Engineer (LLM, NLP)</span> | 
-            <span className="ml-1">Computer Engineer</span>
+            <span className="ml-1">Computer Engineer</span> |
+            <span className="ml-1">Front End Developer</span>
           </h2>
           
           <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 mb-6 max-w-lg mx-auto md:mx-0">
-            Dynamic and innovative Computer Engineering Graduate with 2.5+ years of hands-on experience in AI engineering, 
-            technology support, mentoring, and applied research, bridging technical innovation with real-world solutions.
+            Dynamic and innovative Computer Engineering Graduate with hands-on experience in AI engineering, front-end development,
+            technology support, volunteering, and applied research, bridging technical innovation with real-world solutions.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
@@ -92,13 +93,19 @@ const HeroSection = () => {
           {/* Social proof indicators */}
           <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-4">
             <div className="bg-white dark:bg-portfolio-lightest-navy/10 px-3 py-1 rounded-full text-xs text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
-              2.5+ Years Experience
+              Award-Winning Instructor
             </div>
             <div className="bg-white dark:bg-portfolio-lightest-navy/10 px-3 py-1 rounded-full text-xs text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
-              AI Engineering
+              Entry-Level AI Engineer
             </div>
             <div className="bg-white dark:bg-portfolio-lightest-navy/10 px-3 py-1 rounded-full text-xs text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
               Research Specialist
+            </div>
+            <div className="bg-white dark:bg-portfolio-lightest-navy/10 px-3 py-1 rounded-full text-xs text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
+              Huawei-Certified Engineer
+            </div>
+            <div className="bg-white dark:bg-portfolio-lightest-navy/10 px-3 py-1 rounded-full text-xs text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
+              2.5+ Years of Research Experience
             </div>
           </div>
         </div>

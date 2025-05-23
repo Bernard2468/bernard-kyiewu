@@ -27,6 +27,10 @@ const EducationSection = () => {
                 <p className="text-sm text-gray-500 dark:text-gray-400">
                   September 2018 – October 2022
                 </p>
+                {/* Add thesis supervisor directly under degree */}
+                 <p className="text-sm italic text-portfolio-navy/60 dark:text-portfolio-light-slate/80 mt-1">
+                  Thesis Supervisor: <span className="font-semibold">Dr. Samuel Tweneboah-Koduah, PhD</span>
+                </p>
               </div>
               
               <div className="mt-6">
@@ -35,27 +39,15 @@ const EducationSection = () => {
                   <h3 className="font-medium text-lg">Academic Achievements</h3>
                 </div>
                 <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-portfolio-light-slate pl-2">
-                  <li>Graduated with honors</li>
-                  <li>Conducted innovative thesis research on NLP and IoT applications</li>
-                  <li>Participated in several engineering competitions</li>
+                  <li>Conducted innovative thesis research on IoT applications</li>
+                  <li>Participated in several engineering competitions and symposiums</li>
+                  <li>
+                   <span className="font-medium">Thesis</span>: "Development of Speech Recognition System in Twi using NLP Principles" 
+                    <span className="italic text-sm ml-1">(Supervised by Dr. Samuel Tweneboah-Koduah)</span>
+                  </li>
+                  <li>Actively participated at the 4th Annual AI Symposium (University of South Dakota)</li>
+                  <li>Recipient of the <span className="font-medium">Engineering Eminence Award</span> for Teaching/Research</li>
                 </ul>
-              </div>
-              
-              <div className="mt-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <Award className="h-5 w-5 text-portfolio-amber" />
-                  <h3 className="font-medium text-lg">Professional Certifications</h3>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-gray-50 dark:bg-portfolio-lightest-navy/10 p-3 rounded-md">
-                    <h4 className="font-medium">Health & Safety Compliance</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">ISO Procedures & Standards</p>
-                  </div>
-                  <div className="bg-gray-50 dark:bg-portfolio-lightest-navy/10 p-3 rounded-md">
-                    <h4 className="font-medium">AI Engineering</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">LLM & NLP Specialization</p>
-                  </div>
-                </div>
               </div>
             </CardContent>
           </Card>
