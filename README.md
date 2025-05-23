@@ -82,7 +82,7 @@ yarn build
 - Blog section for technical articles
 - Interactive project demos
 - Achievement timeline
-- Project/tools filtering system
+- Project filtering system
 
 ## 🤝 Contributing
 Contributions, issues, and feature requests are welcome!
