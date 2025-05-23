@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const EducationSection = () => {
   return (
-    <section id="education" className="py-20 bg-white dark:bg-portfolio-navy/95">
+    <section id="education" className="py-20 bg-gray-50 dark:bg-portfolio-navy/90">
       <div className="container mx-auto px-4">
         <h2 className="section-title text-center mb-14">Education & Certifications</h2>
         
