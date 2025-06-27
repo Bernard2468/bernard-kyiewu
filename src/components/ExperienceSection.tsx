@@ -128,7 +128,7 @@ const ExperienceSection = () => {
     },
     {
       title: "Administrator, Office of the Assistant Program Coordinator",
-      company: "Computer Engineering Department",
+      company: "UENR - Computer Engineering Department",
       period: "January 2024 - December 2024",
       achievements: [
         "Maintained accurate records and streamlined communication between 100s of students and faculty.",
