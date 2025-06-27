@@ -82,9 +82,21 @@ const ExperienceItem = ({ title, company, period, achievements, isLast = false }
 const ExperienceSection = () => {
   const experiences = [
     {
+      title: "Research Assistant | APD & PDS Units",
+      company: "Metascholar Consult Limited",
+      period: "May 2025 - Present",
+      achievements: [
+        "Serve as Organization Administrator for Turnitin and iThenticate, overseeing academic integrity and plagiarism detection services for clients",
+        "Provide support in thesis correction, proposal development, and project writing for B.Sc., Masters, and PhD students",
+        "Develop and maintain websites, software, and digital learning platforms for academic and professional use.",
+        "Deliver editing, proofreading, Systematic Reviews and academic article writing services tailored for publications and presentations.",
+        "Offer remote IT support and contribute to AI engineering tasks, including facilitation of online courses and workshops."
+      ]
+    },
+    {
       title: "Junior AI Engineer & Model Trainer | Researcher",
       company: "Reality AI Lab",
-      period: "January 2025 - Present",
+      period: "January 2025 - May 2025",
       achievements: [
         "Developing a predictive AI model chatbot improving accuracy by 30% and reducing latency by 25%.",
         "Engineered automated data preprocessing workflows using techniques such as tokenization and embeddings.",
@@ -95,7 +107,7 @@ const ExperienceSection = () => {
     {
       title: "Teaching Assistant",
       company: "University of Energy and Natural Resources",
-      period: "November 2022 - Present",
+      period: "November 2022 - December 2024",
       achievements: [
         "Mentored over 100 undergraduate students across computer engineering courses, resulting in a 15% increase in average exam scores.",
         "Held daily office hours to address students' questions and resolving 95% of student queries within 24 hours.",
@@ -105,7 +117,7 @@ const ExperienceSection = () => {
     {
       title: "Research Assistant",
       company: "University of Energy and Natural Resources",
-      period: "November 2022 - Present",
+      period: "November 2022 - December 2024",
       achievements: [
         "Performed literature searches and co-edited 3 peer-reviewed manuscripts on advance wireless communication systems.",
         "Guided over 15 students in research work, facilitating 100% final thesis completion.",
