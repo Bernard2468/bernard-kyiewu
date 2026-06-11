@@ -1,5 +1,6 @@
-
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
+import typography from "@tailwindcss/typography";
 
 export default {
 	darkMode: ["class"],
@@ -13,10 +14,28 @@ export default {
 	theme: {
 		container: {
 			center: true,
-			padding: '2rem',
+			padding: {
+				DEFAULT: '1.25rem',
+				sm: '1.5rem',
+				lg: '2rem',
+				xl: '2.5rem',
+			},
 			screens: {
-				'2xl': '1400px'
-			}
+				sm: '640px',
+				md: '768px',
+				lg: '1024px',
+				xl: '1280px',
+				'2xl': '1440px',
+				'3xl': '1600px',
+			},
+		},
+		screens: {
+			sm: '640px',
+			md: '768px',
+			lg: '1024px',
+			xl: '1280px',
+			'2xl': '1440px',
+			'3xl': '1600px',
 		},
 		extend: {
 			colors: {
@@ -53,98 +72,55 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
+				// Brand crimson alias for explicit use
+				crimson: {
+					DEFAULT: 'hsl(var(--primary))',
+					foreground: 'hsl(var(--primary-foreground))'
 				},
-				portfolio: {
-					'navy': '#121212', // Changed to deep black
-					'light-navy': '#1E1E1E', // Lighter black
-					'lightest-navy': '#2D2D2D', // Even lighter black
-					'slate': '#6B7280',
-					'light-slate': '#9CA3AF',
-					'lightest-slate': '#F3F4F6',
-					'white': '#FFFFFF',
-					'amber': '#0EA5E9', // Changed to a vibrant blue
-					'dark-amber': '#0284C7', // Darker blue
-				}
 			},
 			fontFamily: {
-				'poppins': ['Poppins', 'sans-serif'],
-				'roboto': ['Roboto', 'sans-serif'],
+				sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+				serif: ['"Source Serif 4"', 'ui-serif', 'Georgia', 'Cambria', 'serif'],
+			},
+			fontSize: {
+				// Fluid editorial display sizes
+				'display': ['clamp(2.5rem, 1.5rem + 4vw, 4.5rem)', { lineHeight: '1.05', letterSpacing: '-0.02em' }],
+				'display-sm': ['clamp(2rem, 1.4rem + 2.4vw, 3.25rem)', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
+			},
+			maxWidth: {
+				'8xl': '88rem',
+				'9xl': '96rem',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				md: 'calc(var(--radius) - 1px)',
+				sm: 'calc(var(--radius) - 2px)'
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
 				},
 				'fade-in-up': {
-					'0%': {
-						opacity: '0',
-						transform: 'translateY(20px)'
-					},
-					'100%': {
-						opacity: '1',
-						transform: 'translateY(0)'
-					},
+					'0%': { opacity: '0', transform: 'translateY(12px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' },
 				},
 				'fade-in': {
-					'0%': {
-						opacity: '0',
-					},
-					'100%': {
-						opacity: '1',
-					},
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' },
 				},
-				'bounce-subtle': {
-					'0%, 100%': {
-						transform: 'translateY(0)'
-					},
-					'50%': {
-						transform: 'translateY(-5px)'
-					}
-				},
-				'pulse-soft': {
-					'0%, 100%': {
-						opacity: '1'
-					},
-					'50%': {
-						opacity: '0.8'
-					}
-				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'fade-in-up': 'fade-in-up 0.6s ease-out',
-				'fade-in': 'fade-in 0.6s ease-out',
-				'bounce-subtle': 'bounce-subtle 2s ease-in-out infinite',
-				'pulse-soft': 'pulse-soft 3s ease-in-out infinite'
+				'fade-in-up': 'fade-in-up 0.5s ease-out both',
+				'fade-in': 'fade-in 0.5s ease-out both',
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [tailwindcssAnimate, typography],
 } satisfies Config;
