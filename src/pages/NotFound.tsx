@@ -1,8 +1,5 @@
-import { Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
-import { ArrowLeft } from 'lucide-react';
-import { Container } from '@/components/ui-kit';
-import { Button } from '@/components/ui/button';
+import { Link, useLocation } from 'react-router-dom';
 
 const NotFound = () => {
   const location = useLocation();
@@ -12,19 +9,17 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <Container className="flex min-h-[70vh] flex-col items-center justify-center text-center">
-      <p className="kicker mb-4">Error 404</p>
-      <h1 className="text-display-sm font-semibold">Page not found</h1>
-      <p className="prose-editorial mx-auto mt-4 text-muted-foreground">
-        The page you’re looking for doesn’t exist or has moved.
-      </p>
-      <Button asChild className="mt-8 rounded-sm">
-        <Link to="/">
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back home
-        </Link>
-      </Button>
-    </Container>
+    <div className="page-shell" style={{ display: 'block' }}>
+      <main className="content" style={{ textAlign: 'center', paddingTop: '4rem', maxWidth: 'none' }}>
+        <h1 className="name" style={{ fontSize: '2rem' }}>
+          404
+        </h1>
+        <p className="section-note">This page could not be found.</p>
+        <p>
+          <Link to="/">← Back home</Link>
+        </p>
+      </main>
+    </div>
   );
 };
 

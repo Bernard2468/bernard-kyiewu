@@ -1,85 +1,76 @@
-import { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { Loader2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { isSupabaseConfigured } from '@/lib/supabase';
+import { BookIcon } from '@/components/admin/ui';
+import '@/styles/admin.css';
 
 const Login = () => {
-  const { session, signIn, loading } = useAuth();
+  const { signIn, session } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
 
-  if (!loading && session) return <Navigate to="/admin" replace />;
+  useEffect(() => {
+    if (session) navigate('/admin', { replace: true });
+  }, [session, navigate]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setSubmitting(true);
-    const { error: signInError } = await signIn(email.trim(), password);
-    setSubmitting(false);
-    if (signInError) {
-      setError(signInError);
+    setBusy(true);
+    setError('');
+    const { error: err } = await signIn(email, password);
+    setBusy(false);
+    if (err) {
+      setError(err);
       return;
     }
     navigate('/admin', { replace: true });
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-5">
-      <div className="w-full max-w-sm">
-        <div className="mb-8 text-center">
-          <span className="mx-auto mb-4 flex h-11 w-11 items-center justify-center bg-primary font-serif text-base font-semibold text-primary-foreground">
-            KB
-          </span>
-          <h1 className="font-serif text-2xl font-semibold">Studio sign-in</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Manage your portfolio content.</p>
+    <div id="admin-root">
+      <div id="login-screen">
+        <div className="login-card">
+          <div className="login-logo">
+            <BookIcon size={32} />
+          </div>
+          <h1>Profile Admin</h1>
+          <p className="login-sub">Sign in to manage your academic profile</p>
+          {error && <div className="login-error">{error}</div>}
+          <form id="login-form" onSubmit={onSubmit} autoComplete="on">
+            <div className="field-group">
+              <label htmlFor="login-email">Email</label>
+              <input
+                type="email"
+                id="login-email"
+                name="email"
+                required
+                autoComplete="email"
+                placeholder="you@university.edu"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="field-group">
+              <label htmlFor="login-password">Password</label>
+              <input
+                type="password"
+                id="login-password"
+                name="password"
+                required
+                autoComplete="current-password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button type="submit" className="btn-primary btn-full" disabled={busy}>
+              {busy ? 'Signing in…' : 'Sign In'}
+            </button>
+          </form>
         </div>
-
-        {!isSupabaseConfigured && (
-          <p className="mb-4 border border-border bg-muted p-3 text-xs text-muted-foreground">
-            Supabase isn’t configured. Add credentials to <code>.env.local</code> and restart.
-          </p>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4 border border-border bg-card p-6">
-          <div className="space-y-1.5">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="rounded-sm"
-            />
-          </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="rounded-sm"
-            />
-          </div>
-
-          {error && <p className="text-sm text-destructive">{error}</p>}
-
-          <Button type="submit" disabled={submitting} className="w-full rounded-sm">
-            {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Sign in
-          </Button>
-        </form>
       </div>
     </div>
   );

@@ -12,6 +12,13 @@ dist
 dist-ssr
 *.local
 
+# Ported reference project — keep the academic schema/code as reference but
+# never commit its secrets or local database.
+/profile
+profile/.env
+profile/db.sqlite3
+profile/**/__pycache__/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
