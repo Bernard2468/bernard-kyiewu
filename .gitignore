@@ -29,3 +29,5 @@ profile/**/__pycache__/
 *.njsproj
 *.sln
 *.sw?
+
+/GNRS

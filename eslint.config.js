@@ -5,7 +5,9 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist"] },
+  // "GNRS" and "profile" are reference copies of other projects kept in-tree
+  // for porting; they are not part of this app and must not be linted/built.
+  { ignores: ["dist", "GNRS", "profile"] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],

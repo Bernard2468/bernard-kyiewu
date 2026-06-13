@@ -1,9 +1,28 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  LayoutDashboard,
+  User,
+  Share2,
+  ListOrdered,
+  FileText,
+  Newspaper,
+  FlaskConical,
+  GraduationCap,
+  BookOpen,
+  Presentation,
+  Award,
+  HeartHandshake,
+  Files,
+  Menu,
+  ExternalLink,
+  LogOut,
+  type LucideIcon,
+} from 'lucide-react';
 import { useAuth } from '@/lib/auth';
 import { useSiteData, useReloadSiteData } from '@/hooks/data';
 import { AdminContext } from '@/components/admin/context';
-import { BookIcon } from '@/components/admin/ui';
+import { DashboardOverview } from '@/components/admin/DashboardOverview';
 import { ProfileEditor } from '@/components/admin/editors/ProfileEditor';
 import { SocialEditor } from '@/components/admin/editors/SocialEditor';
 import { SectionsEditor } from '@/components/admin/editors/SectionsEditor';
@@ -21,24 +40,51 @@ import {
 } from '@/components/admin/editors/configs';
 import '@/styles/admin.css';
 
-const NAV: { group: string; items: { key: string; label: string }[] }[] = [
-  { group: 'Profile', items: [{ key: 'profile', label: 'Profile Info' }, { key: 'social', label: 'Social Links' }] },
-  { group: 'Navigation', items: [{ key: 'sections', label: 'Section Names' }] },
+interface NavItem {
+  key: string;
+  label: string;
+  Icon: LucideIcon;
+}
+
+const NAV: { group: string; items: NavItem[] }[] = [
+  { group: 'Overview', items: [{ key: 'dashboard', label: 'Dashboard', Icon: LayoutDashboard }] },
+  {
+    group: 'Profile',
+    items: [
+      { key: 'profile', label: 'Profile Info', Icon: User },
+      { key: 'social', label: 'Social Links', Icon: Share2 },
+    ],
+  },
+  { group: 'Navigation', items: [{ key: 'sections', label: 'Section Names', Icon: ListOrdered }] },
   {
     group: 'Content',
     items: [
-      { key: 'biography', label: 'Biography' },
-      { key: 'news', label: 'News' },
-      { key: 'research', label: 'Research' },
-      { key: 'education', label: 'Education' },
-      { key: 'publications', label: 'Publications' },
-      { key: 'teaching', label: 'Teaching' },
-      { key: 'awards', label: 'Awards' },
-      { key: 'service', label: 'Service' },
+      { key: 'biography', label: 'Biography', Icon: FileText },
+      { key: 'news', label: 'News', Icon: Newspaper },
+      { key: 'research', label: 'Research', Icon: FlaskConical },
+      { key: 'education', label: 'Education', Icon: GraduationCap },
+      { key: 'publications', label: 'Publications', Icon: BookOpen },
+      { key: 'teaching', label: 'Teaching', Icon: Presentation },
+      { key: 'awards', label: 'Awards', Icon: Award },
+      { key: 'service', label: 'Service', Icon: HeartHandshake },
     ],
   },
-  { group: 'Pages', items: [{ key: 'pages', label: 'Custom Pages' }] },
+  { group: 'Pages', items: [{ key: 'pages', label: 'Custom Pages', Icon: Files }] },
 ];
+
+const TITLES: Record<string, string> = Object.fromEntries(
+  NAV.flatMap((g) => g.items.map((it) => [it.key, it.label])),
+);
+
+function initialsOf(name: string): string {
+  return (name || 'Admin')
+    .split(' ')
+    .map((w) => w[0])
+    .filter(Boolean)
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+}
 
 const Dashboard = () => {
   const { data, isLoading } = useSiteData();
@@ -46,7 +92,8 @@ const Dashboard = () => {
   const { signOut } = useAuth();
   const navigate = useNavigate();
 
-  const [section, setSection] = useState('profile');
+  const [section, setSection] = useState('dashboard');
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error'; show: boolean }>({
     msg: '',
     type: 'success',
@@ -75,10 +122,19 @@ const Dashboard = () => {
     [],
   );
 
+  const go = (key: string) => {
+    setSection(key);
+    setDrawerOpen(false);
+  };
+
   const onSignOut = async () => {
     await signOut();
     navigate('/admin/login', { replace: true });
   };
+
+  const initials = initialsOf(data?.profile?.full_name ?? '');
+  const firstName = (data?.profile?.full_name ?? 'Admin').split(' ')[0] || 'Admin';
+  const title = section === 'dashboard' ? 'Dashboard' : TITLES[section] ?? '';
 
   const renderEditor = () => {
     if (!data) return null;
@@ -114,50 +170,82 @@ const Dashboard = () => {
 
   return (
     <div id="admin-root">
-      <div id="dashboard">
-        <header className="admin-topbar">
-          <div className="topbar-brand">
-            <BookIcon size={18} />
-            Profile Admin
-          </div>
-          <div className="topbar-actions">
-            {saved && <span className="save-indicator">Saved</span>}
-            <a href="/" target="_blank" rel="noreferrer" className="btn-ghost">
-              View Site ↗
-            </a>
-            <button className="btn-ghost" onClick={onSignOut}>
-              Sign Out
-            </button>
-          </div>
-        </header>
+      <div className="adash-layout">
+        <div
+          className={`adash-backdrop${drawerOpen ? ' open' : ''}`}
+          onClick={() => setDrawerOpen(false)}
+        />
 
-        <div className="admin-shell">
-          <nav className="admin-nav">
+        {/* Sidebar */}
+        <aside className={`adash-sidebar${drawerOpen ? ' open' : ''}`}>
+          <div className="adash-brand">
+            <span className="adash-brand-avatar">{initials}</span>
+            <div>
+              <div className="adash-brand-name">{firstName}</div>
+              <div className="adash-brand-sub">Admin</div>
+            </div>
+          </div>
+
+          <nav className="adash-nav">
             {NAV.map((g) => (
-              <div className="nav-group" key={g.group}>
-                <span className="nav-group-label">{g.group}</span>
-                {g.items.map((it) => (
+              <div key={g.group}>
+                <div className="adash-nav-section">{g.group}</div>
+                {g.items.map(({ key, label, Icon }) => (
                   <button
-                    key={it.key}
-                    className={`nav-item${section === it.key ? ' active' : ''}`}
-                    onClick={() => setSection(it.key)}
+                    key={key}
+                    className={`adash-nav-btn${section === key ? ' active' : ''}`}
+                    onClick={() => go(key)}
                   >
-                    {it.label}
+                    <Icon className="adash-nav-icon" size={18} strokeWidth={2} />
+                    <span className="adash-nav-label">{label}</span>
                   </button>
                 ))}
               </div>
             ))}
           </nav>
 
-          <main className="admin-main">
+          <div className="adash-sidebar-footer">
+            <a href="/" target="_blank" rel="noreferrer" className="adash-foot-btn">
+              <ExternalLink />
+              View Site
+            </a>
+            <button className="adash-foot-btn danger" onClick={onSignOut}>
+              <LogOut />
+              Sign Out
+            </button>
+          </div>
+        </aside>
+
+        {/* Main */}
+        <div className="adash-main">
+          <header className="adash-topbar">
+            <button className="adash-hamburger" aria-label="Open menu" onClick={() => setDrawerOpen(true)}>
+              <Menu />
+            </button>
+            <h1 className="adash-topbar-title">{title}</h1>
+            <div className="adash-topbar-actions">
+              {saved && <span className="save-indicator">Saved</span>}
+              <a href="/" target="_blank" rel="noreferrer" className="adash-viewsite">
+                <ExternalLink />
+                View Site
+              </a>
+              <span className="adash-avatar">{initials}</span>
+            </div>
+          </header>
+
+          <div className="adash-content">
             {data ? (
               <AdminContext.Provider value={{ data, reload, notify, showSaved }}>
-                {renderEditor()}
+                {section === 'dashboard' ? (
+                  <DashboardOverview firstName={firstName} onNavigate={setSection} />
+                ) : (
+                  <div className="adash-card">{renderEditor()}</div>
+                )}
               </AdminContext.Provider>
             ) : (
-              <p className="admin-loading">{isLoading ? 'Loading…' : 'No data.'}</p>
+              <p className="adash-loading">{isLoading ? 'Loading…' : 'No data.'}</p>
             )}
-          </main>
+          </div>
         </div>
       </div>
 
