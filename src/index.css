@@ -700,7 +700,7 @@ button:focus-visible {
   height: 50px;
   padding: 0;
   border: none;
-  border-radius: 12px;
+  border-radius: 50%;
   background-color: #3b82f6;
   color: #fff;
   cursor: pointer;
@@ -733,8 +733,8 @@ button:focus-visible {
    -------------------------------------------------------------------------- */
 
 @media print {
-  .sidebar, .nav-toggle, .skip-link, .profiles, .back-to-top,
-  .site-footer a[href="#top"] { display: none; }
+  .sidebar, .nav-toggle, .skip-link, .profiles,
+  .back-to-top { display: none; }
 
   .page-shell { display: block; }
 
