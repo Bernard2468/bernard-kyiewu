@@ -447,10 +447,19 @@ function renderSection(s: SiteSection, d: SectionData) {
 const Home = () => {
   const { data, isLoading } = useSiteData();
   const profile = data?.profile ?? null;
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
     if (profile?.full_name) document.title = `${profile.full_name} | Home`;
   }, [profile?.full_name]);
+
+  // Back-to-top button — appears after scrolling past 300px (mirrors GNRS).
+  useEffect(() => {
+    const onScroll = () => setShowBackToTop(window.scrollY > 300);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const visibleSections = (data?.sections ?? []).filter((s) => s.visible);
   const visiblePages = (data?.pages ?? []).filter((p) => p.visible);
@@ -582,6 +591,25 @@ const Home = () => {
       </div>
 
       <SiteFooter updatedAt={profile?.updated_at} />
+
+      <button
+        type="button"
+        className={`back-to-top${showBackToTop ? ' is-visible' : ''}`}
+        aria-label="Back to top"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          aria-hidden="true"
+        >
+          <path d="M18 15l-6-6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
     </>
   );
 };
