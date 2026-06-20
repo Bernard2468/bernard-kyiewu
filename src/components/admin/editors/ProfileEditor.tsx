@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { saveProfile, uploadPhoto } from '@/lib/adminApi';
+import { saveProfile, uploadPhoto, deleteStorageFile } from '@/lib/adminApi';
 import { useAdmin } from '@/components/admin/context';
 
 const FIELDS = [
@@ -38,6 +38,7 @@ export function ProfileEditor() {
   const upd = (k: Field, v: string) => setForm((prev) => ({ ...prev, [k]: v }));
 
   const handleFile = async (file: File) => {
+    const previousUrl = photoUrl;
     setProgress('Uploading…');
     const { publicUrl, error } = await uploadPhoto(file);
     if (error || !publicUrl) {
@@ -46,6 +47,8 @@ export function ProfileEditor() {
       return;
     }
     await saveProfile({ photo_url: publicUrl, updated_at: new Date().toISOString() });
+    // Clear out the photo we just replaced so old avatars don't linger publicly.
+    if (previousUrl && previousUrl !== publicUrl) await deleteStorageFile(previousUrl);
     setProgress('Saved!');
     setTimeout(() => setProgress(null), 1500);
     setPhotoUrl(publicUrl);

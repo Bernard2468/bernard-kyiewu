@@ -69,6 +69,21 @@ export async function uploadPhoto(file: File): Promise<{ publicUrl: string | nul
 }
 
 /**
+ * Best-effort delete of a previously-uploaded file in the `profile` bucket,
+ * given its public URL. Used to clear out the old photo/CV when it is replaced
+ * or removed, so stale files don't linger publicly. Non-fatal on error.
+ */
+export async function deleteStorageFile(publicUrl: string): Promise<void> {
+  if (!publicUrl) return;
+  const marker = '/storage/v1/object/public/profile/';
+  const idx = publicUrl.indexOf(marker);
+  if (idx === -1) return;
+  const path = decodeURIComponent(publicUrl.slice(idx + marker.length).split('?')[0]);
+  if (!path) return;
+  await supabase.storage.from('profile').remove([path]);
+}
+
+/**
  * Upload a CV (PDF) to the public `profile` storage bucket and return its public
  * URL. Same bucket/policies as photos; stored under a `cv_` prefix.
  */

@@ -163,13 +163,25 @@ BEGIN
     EXECUTE format('DROP POLICY IF EXISTS %I ON public.%I', r.policyname, r.tablename);
   END LOOP;
 
-  -- Recreate: public SELECT + authenticated full access
+  -- Recreate policies:
+  --   • anon (the public website) may SELECT, but on tables that carry a
+  --     `visible` flag it only sees rows where visible = true — so hidden /
+  --     draft content is never returned over the public API, not just hidden
+  --     in the browser.
+  --   • authenticated (the logged-in admin) keeps full read/write on every row.
   FOREACH tbl IN ARRAY ARRAY[
     'site_profile','news_items','research_interests','education_entries',
     'publications','teaching_courses','awards','service_entries',
     'site_sections','custom_pages'
   ] LOOP
-    EXECUTE format('CREATE POLICY "public_read" ON public.%I FOR SELECT USING (true)', tbl);
+    IF tbl IN ('news_items','publications','site_sections','custom_pages') THEN
+      EXECUTE format(
+        'CREATE POLICY "public_read" ON public.%I FOR SELECT TO anon USING (visible = true)',
+        tbl
+      );
+    ELSE
+      EXECUTE format('CREATE POLICY "public_read" ON public.%I FOR SELECT TO anon USING (true)', tbl);
+    END IF;
     EXECUTE format(
       'CREATE POLICY "auth_all" ON public.%I FOR ALL TO authenticated USING (true) WITH CHECK (true)',
       tbl

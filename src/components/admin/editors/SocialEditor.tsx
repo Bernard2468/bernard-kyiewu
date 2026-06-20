@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { saveProfile, uploadCv } from '@/lib/adminApi';
+import { saveProfile, uploadCv, deleteStorageFile } from '@/lib/adminApi';
 import { useAdmin } from '@/components/admin/context';
 
 const FIELDS = [
@@ -60,6 +60,7 @@ export function SocialEditor() {
       notify('Please choose a PDF file', 'error');
       return;
     }
+    const previousUrl = cvUrl;
     setCvProgress('Uploading…');
     const { publicUrl, error } = await uploadCv(file);
     if (error || !publicUrl) {
@@ -73,6 +74,8 @@ export function SocialEditor() {
       notify(saveErr.message, 'error');
       return;
     }
+    // Clear out the file we just replaced so old CVs don't linger publicly.
+    if (previousUrl && previousUrl !== publicUrl) await deleteStorageFile(previousUrl);
     setCvProgress('Saved!');
     setTimeout(() => setCvProgress(null), 1500);
     setCvUrl(publicUrl);
@@ -82,11 +85,13 @@ export function SocialEditor() {
   };
 
   const removeCv = async () => {
+    const removedUrl = cvUrl;
     const { error } = await saveProfile({ cv_url: '', updated_at: new Date().toISOString() });
     if (error) {
       notify(error.message, 'error');
       return;
     }
+    if (removedUrl) await deleteStorageFile(removedUrl);
     setCvUrl('');
     notify('CV removed');
     showSaved();
