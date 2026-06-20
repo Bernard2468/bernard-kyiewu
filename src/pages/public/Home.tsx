@@ -194,8 +194,7 @@ function SiteFooter({ updatedAt }: { updatedAt?: string }) {
   return (
     <footer className="site-footer">
       <p>
-        Last updated <time dateTime={iso}>{label}</time>.{' '}
-        <a href="/admin">Admin</a>
+        Last updated <time dateTime={iso}>{label}</time>.
       </p>
     </footer>
   );
