@@ -4,7 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Single-page personal portfolio website for Kyiewu Bernard. Built with React + TypeScript + Vite, styled with TailwindCSS and shadcn/ui components. Originally scaffolded with Lovable (note the `lovable-tagger` Vite plugin and the `vite_react_shadcn_ts` package name). Deployed to Netlify.
+Academic profile website (single-page public homepage + password-protected admin
+dashboard) for an academic. React + TypeScript + Vite, backed by **Supabase**
+(Postgres + Auth + Storage). It was **ported from the legacy Django / static-JS
+app in [profile/](profile/)** — that directory is the design source of truth and
+has its own `CLAUDE.md`. The site's CSS was copied verbatim from
+`profile/styles.css` into [src/index.css](src/index.css).
+
+> The repo was originally scaffolded as a Lovable portfolio (hence the
+> `vite_react_shadcn_ts` package name, `lovable-tagger`, the [README.md](README.md),
+> and the unused `src/components/ui/` shadcn library). That portfolio is gone —
+> ignore the README, it describes the old site.
 
 ## Commands
 
@@ -18,37 +28,147 @@ npm run preview    # serve the production build locally
 
 There is no test setup in this project.
 
+## Supabase configuration
+
+The browser talks to Supabase directly using the **anon key only**; all security
+is enforced by Postgres Row-Level Security (public `SELECT`, authenticated full
+access). Never put the `service_role` secret in the frontend.
+
+- Credentials come from `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY`, read in
+  [src/lib/supabase.ts](src/lib/supabase.ts). Local values live in `.env.local`
+  (gitignored). If they're missing, the client falls back to placeholder values
+  and `isSupabaseConfigured` is `false` (the app imports but real calls fail) —
+  it does not crash.
+- **Schema source of truth: [profile/sql/schema.sql](profile/sql/schema.sql)** —
+  idempotent, run once in the Supabase SQL editor. It creates the 10 content
+  tables, RLS policies, the public `profile` storage bucket, and seed data.
+- TypeScript row types in [src/types/database.ts](src/types/database.ts) mirror
+  that SQL. They are **maintained by hand** — when the schema changes, update
+  both files together.
+
 ## Architecture
 
-The app is a single route that renders one long scrolling page; there is no real routing beyond a 404 fallback.
+### Routing & providers
 
-- [src/main.tsx](src/main.tsx) mounts `<App />`.
-- [src/App.tsx](src/App.tsx) wraps everything in provider layers: `QueryClientProvider` → `ThemeProvider` → `TooltipProvider`, mounts both toast systems (`Toaster` + `Sonner`), then `BrowserRouter` with two routes: `/` → `HomePage` ([src/pages/Index.tsx](src/pages/Index.tsx)) and `*` → `NotFound`.
-- [src/pages/Index.tsx](src/pages/Index.tsx) is the whole page — it composes the section components in display order: `Header`, `HeroSection`, `AboutSection`, `ExperienceSection`, `ProjectsSection`, `ToolsSection`, `EducationSection`, `VolunteerSection`, `ContactSection`, `Footer`. To add or reorder content on the page, edit this file.
+[src/App.tsx](src/App.tsx) wraps everything in `QueryClientProvider` →
+`AuthProvider` → `BrowserRouter` and defines four routes:
 
-### Section components
+- `/` → public homepage ([src/pages/public/Home.tsx](src/pages/public/Home.tsx))
+- `/admin/login` → [src/pages/admin/Login.tsx](src/pages/admin/Login.tsx)
+- `/admin` → [src/pages/admin/Dashboard.tsx](src/pages/admin/Dashboard.tsx), wrapped in `ProtectedRoute`
+- `*` → `NotFound`
 
-Each section in [src/components/](src/components/) is self-contained and **owns its content inline** — text, lists, project entries, timeline data, etc. are hardcoded arrays/JSX inside the component rather than loaded from a shared data source or CMS. To update portfolio content (e.g. add a project or experience entry), edit the relevant section component directly.
+There is no SPA-redirect config (`_redirects` / `netlify.toml`) in the repo, so a
+host-level catch-all rewrite to `index.html` is required for deep links like
+`/admin` to survive a hard refresh in production.
 
-### Theming
+### Data layer (one query, shared by both UIs)
 
-Dark mode uses a **custom** [src/contexts/ThemeContext.tsx](src/contexts/ThemeContext.tsx), not `next-themes` (which is installed but unused for the page). It toggles the `dark` class on `document.documentElement` and persists the choice in `localStorage` under the `theme` key, falling back to the OS `prefers-color-scheme`. Components read/toggle it via the `useTheme()` hook; `Index` passes `isDarkMode`/`toggleTheme` down to `Header`. Tailwind is configured with `darkMode: ["class"]`, so all theming is expressed as `dark:` variants.
+[src/hooks/data/index.ts](src/hooks/data/index.ts) is the single data source.
+`fetchSiteData()` does **one parallel fetch of all 10 content tables** and returns
+**every row, including hidden ones**. `useSiteData()` (React Query, key
+`['site-data']`) is consumed by **both** the public page and the admin dashboard;
+`useReloadSiteData()` returns an invalidator to call after admin writes.
 
-### Styling conventions
+The public page filters `visible` **client-side**; the admin shows everything.
 
-- **shadcn/ui** primitives live in [src/components/ui/](src/components/ui/). These are generated/vendored components; prefer composing them over hand-editing. `cn()` from [src/lib/utils.ts](src/lib/utils.ts) merges class names.
-- Colors are driven by CSS variables plus a custom `portfolio-*` palette defined in [tailwind.config.ts](tailwind.config.ts) (e.g. `portfolio-navy`, `portfolio-amber`, `portfolio-light-slate`). The `amber` token is actually a blue accent (`#0EA5E9`) — match existing usage rather than the name. Fonts: `font-poppins` (headings), `font-roboto` (body).
-- Reusable semantic classes are defined with `@apply` in [src/index.css](src/index.css) under `@layer components`: `.section-title`, `.section-subtitle`, `.nav-link`, `.timeline-item`, `.skill-card`, `.project-card`, `.contact-input`. Reuse these for consistency instead of duplicating long utility strings.
-- Custom keyframe animations (`fade-in`, `fade-in-up`, `bounce-subtle`, `pulse-soft`) are defined in the Tailwind config; `framer-motion` is also available for richer animation.
+### Public homepage
 
-### Contact form
+[Home.tsx](src/pages/public/Home.tsx) is data-driven: it renders sections in the
+order/visibility defined by the `site_sections` table, mapping each `slug` to a
+renderer in `renderSection()` (`biography`, `news`, `research`, `education`,
+`publications`, `teaching`, `awards`, `service`), then appends any visible
+`custom_pages`. Notable conventions:
 
-[src/components/ContactSection.tsx](src/components/ContactSection.tsx) posts directly to a **Formspree** endpoint (`https://formspree.io/f/...`) from the browser — there is no backend. Submission feedback uses the shadcn `useToast()` toast.
+- Rich-text fields (biography, news bodies, awards, service items, custom pages,
+  publication citations) are stored as **HTML strings** and rendered with
+  `dangerouslySetInnerHTML`.
+- Brand/academic icons (Scholar, ORCID, ResearchGate, LinkedIn, GitHub) are
+  **inlined SVGs** — deliberately no icon-font or third-party CDN (browser
+  tracking-prevention can block those).
+- Scroll-spy and the mobile nav toggle are a hand-written `IntersectionObserver`
+  effect that mirrors `initNavObserver` in the legacy `profile/app.js`.
+
+### Admin dashboard
+
+[Dashboard.tsx](src/pages/admin/Dashboard.tsx) is a sidebar shell that switches
+between editors by key. It provides `AdminContext`
+([src/components/admin/context.ts](src/components/admin/context.ts)) carrying
+`{ data, reload, notify, showSaved }` to all editors.
+
+Editors in [src/components/admin/editors/](src/components/admin/editors/):
+
+- **Bespoke editors**: `ProfileEditor`, `SocialEditor`, `SectionsEditor`,
+  `BiographyEditor`, `PublicationsEditor`.
+- **Generic [CardListEditor](src/components/admin/editors/CardListEditor.tsx)** —
+  one component drives add/edit/delete/reorder/visibility for news, research,
+  education, teaching, awards, service, and custom pages. Each is described by a
+  `CardListConfig` object in
+  [configs.tsx](src/components/admin/editors/configs.tsx). **To add a new
+  list-backed section, add a config there rather than writing a new editor.**
+
+Writes: editors call `supabase.from(table)` directly for plain
+insert/update/delete. The cases that need care live in
+[src/lib/adminApi.ts](src/lib/adminApi.ts):
+
+- `saveProfile` — the singleton `site_profile` row; re-fetches the real id first
+  to avoid creating duplicates.
+- `reorder` — swaps `sort_order` with a neighbour (drives the up/down buttons).
+- `uploadPhoto` — uploads to the public `profile` storage bucket, returns the
+  public URL.
+
+All write helpers are ports of functions in `profile/admin/app.js`.
+
+### Auth
+
+[src/lib/auth.tsx](src/lib/auth.tsx) wraps Supabase Auth: `AuthProvider` tracks
+the session, `useAuth()` exposes `signIn`/`signOut`, and `ProtectedRoute`
+redirects to `/admin/login` when there is no session. There is **no signup UI** —
+admin users are created in the Supabase Auth dashboard.
+
+## Styling — read before touching any UI
+
+The public site and the admin dashboard are styled with **plain, hand-authored
+CSS**, not Tailwind utilities or shadcn/ui:
+
+- [src/index.css](src/index.css) — public academic homepage, ported verbatim from
+  `profile/styles.css`. Imported globally in [src/main.tsx](src/main.tsx).
+  Semantic classes: `.site-header`, `.section`, `.section-title`, `.prose`,
+  `.timeline`, `.pub-list`, `.news-table`, etc.
+- [src/styles/admin.css](src/styles/admin.css) — the admin "glass" dashboard,
+  scoped under `#admin-root` and imported by `Dashboard`/`Login`. Classes:
+  `.adash-*`, `.btn-primary`, `.item-card`, `.field-group`, `.login-card`, etc.
+  (Visual style and the Outfit font are borrowed from the separate `GNRS/`
+  project.)
+- Fonts are **self-hosted via `@fontsource`** (Inter + Lora for the public site,
+  Outfit for admin), imported in `main.tsx` — again, no Google Fonts CDN.
+
+**Tailwind, shadcn/ui ([src/components/ui/](src/components/ui/)), `next-themes`,
+and `framer-motion` are installed but unused by the rendered app** — leftovers
+from the original portfolio. There are no `@tailwind`/`@apply` directives in
+`src`, and nothing outside `src/components/ui/` imports those primitives. When
+editing pages, **match the existing hand-written CSS**; don't reach for Tailwind
+classes or shadcn components.
+
+## `profile/` and `GNRS/` (gitignored)
+
+- [profile/](profile/) — the legacy Django + static-JS implementation this app was
+  ported from. Gitignored but kept as reference; it has its own `CLAUDE.md` and
+  holds the canonical schema (`profile/sql/schema.sql`). Public render logic
+  mirrors `profile/app.js`; admin writes mirror `profile/admin/app.js`.
+- `GNRS/` — a separate, unrelated project (gitignored). Only relevance: the admin
+  dashboard's look was adapted from it.
 
 ## Path alias
 
-`@/` resolves to `src/` (configured in both [vite.config.ts](vite.config.ts) and [tsconfig.json](tsconfig.json)). Use `@/components/...`, `@/hooks/...`, etc. for imports.
+`@/` resolves to `src/` (configured in both [vite.config.ts](vite.config.ts) and
+[tsconfig.json](tsconfig.json)). Use `@/components/...`, `@/hooks/...`,
+`@/lib/...`, etc.
 
 ## TypeScript / lint notes
 
-TypeScript is intentionally loose here: `strictNullChecks`, `noImplicitAny`, `noUnusedLocals`, and `noUnusedParameters` are all disabled, and ESLint has `@typescript-eslint/no-unused-vars` turned off. Don't expect the compiler to catch null/undefined issues — be deliberate about them in new code.
+TypeScript is intentionally loose: `strictNullChecks`, `noImplicitAny`,
+`noUnusedLocals`, and `noUnusedParameters` are disabled, and ESLint has
+`@typescript-eslint/no-unused-vars` off. Don't rely on the compiler to catch
+null/undefined — handle it deliberately, especially around `useSiteData()` data
+that can be `null`/empty before the first fetch resolves.
