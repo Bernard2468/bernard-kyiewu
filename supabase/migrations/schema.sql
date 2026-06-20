@@ -45,6 +45,9 @@ CREATE TABLE IF NOT EXISTS site_profile (
   updated_at       timestamptz          DEFAULT now()
 );
 
+-- CV / résumé PDF link (uploaded to the public `profile` storage bucket)
+ALTER TABLE site_profile ADD COLUMN IF NOT EXISTS cv_url text DEFAULT '';
+
 CREATE TABLE IF NOT EXISTS news_items (
   id         bigint  GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   event_date date,

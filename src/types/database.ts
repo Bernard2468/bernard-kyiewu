@@ -21,6 +21,7 @@ export interface SiteProfile {
   linkedin_url: string;
   github_url: string;
   orcid_url: string;
+  cv_url: string;
   students_text: string;
   students_email: string;
   updated_at: string;

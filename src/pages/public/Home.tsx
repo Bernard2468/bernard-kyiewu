@@ -24,6 +24,14 @@ const GitHubIcon = (
     <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
   </svg>
 );
+// CV / résumé download icon (document with a downward arrow).
+const CvIcon = (
+  <svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M14 2v6h6" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M12 18v-6M9.5 15.5 12 18l2.5-2.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
 // Academic icons inlined (from the academicons set, OFL) so nothing loads from a
 // third-party CDN that browser tracking-prevention can block.
 const ScholarIcon = (
@@ -87,13 +95,14 @@ function SiteHeader({ profile }: { profile: SiteProfile | null }) {
   const hasPhoto = Boolean(p.photo_url) && !imgError;
   const affLines = [p.department_1, p.department_2, p.university].filter(Boolean);
 
-  const links: { url: string; label: string; icon: React.ReactNode }[] = [];
+  const links: { url: string; label: string; icon: React.ReactNode; newTab?: boolean }[] = [];
   if (p.scholar_url) links.push({ url: p.scholar_url, label: 'Google Scholar', icon: ScholarIcon });
   if (p.orcid_url) links.push({ url: p.orcid_url, label: 'ORCID', icon: OrcidIcon });
   if (p.researchgate_url)
     links.push({ url: p.researchgate_url, label: 'ResearchGate', icon: ResearchGateIcon });
   if (p.linkedin_url) links.push({ url: p.linkedin_url, label: 'LinkedIn', icon: LinkedInIcon });
   if (p.github_url) links.push({ url: p.github_url, label: 'GitHub', icon: GitHubIcon });
+  if (p.cv_url) links.push({ url: p.cv_url, label: 'CV', icon: CvIcon, newTab: true });
 
   return (
     <header className="site-header" id="top">
@@ -154,7 +163,11 @@ function SiteHeader({ profile }: { profile: SiteProfile | null }) {
               <ul className="profiles" aria-label="External profiles">
                 {links.map((lk, i) => (
                   <li key={i}>
-                    <a href={lk.url} rel="noopener noreferrer">
+                    <a
+                      href={lk.url}
+                      rel="noopener noreferrer"
+                      target={lk.newTab ? '_blank' : undefined}
+                    >
                       {lk.icon}
                       <span>{lk.label}</span>
                     </a>

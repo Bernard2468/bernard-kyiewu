@@ -511,6 +511,31 @@
 .photo-upload-hint strong { color: var(--blue); }
 .upload-progress { font-size: 0.8rem; color: var(--ink-muted); margin-top: 0.5rem; }
 
+/* ── CV upload (compact) ─────────────────────────────────────────────────── */
+.cv-upload { max-width: 460px; }
+.cv-upload-area { padding: 1.1rem 1.25rem; }
+.cv-upload-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px; margin: 0 auto 0.6rem;
+  color: var(--blue); background: var(--blue-soft);
+  border-radius: 0.7rem;
+}
+.cv-card {
+  display: flex; align-items: center; gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  background: #fafbfd; border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+.cv-card-icon {
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px; color: var(--blue); background: var(--blue-soft);
+  border-radius: 0.7rem;
+}
+.cv-card-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
+.cv-card-info strong { font-size: 0.86rem; color: var(--ink); }
+.cv-card-info span { font-size: 0.76rem; color: var(--ink-muted); }
+.cv-card-actions { flex: none; display: flex; align-items: center; gap: 0.25rem; }
+
 /* ── Buttons ─────────────────────────────────────────────────────────────── */
 .btn-primary {
   display: inline-flex;

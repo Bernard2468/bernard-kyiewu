@@ -67,3 +67,19 @@ export async function uploadPhoto(file: File): Promise<{ publicUrl: string | nul
   } = supabase.storage.from('profile').getPublicUrl(filename);
   return { publicUrl, error: null };
 }
+
+/**
+ * Upload a CV (PDF) to the public `profile` storage bucket and return its public
+ * URL. Same bucket/policies as photos; stored under a `cv_` prefix.
+ */
+export async function uploadCv(file: File): Promise<{ publicUrl: string | null; error: string | null }> {
+  const filename = `cv_${Date.now()}.pdf`;
+  const { error: upErr } = await supabase.storage
+    .from('profile')
+    .upload(filename, file, { upsert: true, contentType: 'application/pdf' });
+  if (upErr) return { publicUrl: null, error: upErr.message };
+  const {
+    data: { publicUrl },
+  } = supabase.storage.from('profile').getPublicUrl(filename);
+  return { publicUrl, error: null };
+}
