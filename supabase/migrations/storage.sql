@@ -1,26 +1,43 @@
--- Run in Supabase SQL Editor: Storage → or SQL → New query
--- Public bucket for profile photo uploads (name: profile)
+-- =====================================================================
+-- supabase/migrations/storage.sql
+-- Public `profile` storage bucket for profile-photo uploads.
+-- Run AFTER schema.sql, once, in the Supabase SQL editor.
+-- Idempotent: drops/recreates its own policies.
+-- =====================================================================
 
 INSERT INTO storage.buckets (id, name, public)
 VALUES ('profile', 'profile', true)
 ON CONFLICT (id) DO UPDATE SET public = true;
 
-DROP POLICY IF EXISTS "Public read profile bucket" ON storage.objects;
-CREATE POLICY "Public read profile bucket"
+-- Drop our own policies first so this is safe to re-run.
+DO $$
+DECLARE r RECORD;
+BEGIN
+  FOR r IN
+    SELECT policyname FROM pg_policies
+    WHERE schemaname = 'storage' AND tablename = 'objects'
+      AND policyname IN (
+        'profile_public_read','profile_auth_insert',
+        'profile_auth_update','profile_auth_delete'
+      )
+  LOOP
+    EXECUTE format('DROP POLICY IF EXISTS %I ON storage.objects', r.policyname);
+  END LOOP;
+END $$;
+
+-- Anyone can read photos; only logged-in admins can upload/replace/delete.
+CREATE POLICY "profile_public_read"
   ON storage.objects FOR SELECT
   USING (bucket_id = 'profile');
 
-DROP POLICY IF EXISTS "Authenticated upload profile bucket" ON storage.objects;
-CREATE POLICY "Authenticated upload profile bucket"
-  ON storage.objects FOR INSERT
+CREATE POLICY "profile_auth_insert"
+  ON storage.objects FOR INSERT TO authenticated
   WITH CHECK (bucket_id = 'profile');
 
-DROP POLICY IF EXISTS "Authenticated update profile bucket" ON storage.objects;
-CREATE POLICY "Authenticated update profile bucket"
-  ON storage.objects FOR UPDATE
+CREATE POLICY "profile_auth_update"
+  ON storage.objects FOR UPDATE TO authenticated
   USING (bucket_id = 'profile');
 
-DROP POLICY IF EXISTS "Authenticated delete profile bucket" ON storage.objects;
-CREATE POLICY "Authenticated delete profile bucket"
-  ON storage.objects FOR DELETE
+CREATE POLICY "profile_auth_delete"
+  ON storage.objects FOR DELETE TO authenticated
   USING (bucket_id = 'profile');
